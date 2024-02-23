@@ -1,0 +1,70 @@
+Java File I/O
+
+Java file I/O, short for Input/Output, refers to the process of reading from and writing to files in Java. ava provides a rich set of classes and interfaces in the java.io and java.nio packages to facilitate file I/O operations. 
+Streams: In Java, file I/O is typically performed using streams, which are sequences of data. There are two main types of streams:
+
+Byte Streams: These streams work at the byte level and are used for handling binary data. Examples include FileInputStream and FileOutputStream.
+Character Streams: These streams work at the character level and are used for handling text data. Examples include FileReader and FileWriter.
+Readers and Writers: Character streams use readers for input and writers for output. They provide methods to read and write characters from/to files.
+
+Buffers: Buffering is a technique used to improve I/O performance by reducing the number of interactions with the underlying file system. Buffered streams, such as BufferedReader and BufferedWriter, wrap around other streams to provide buffering capabilities.
+
+Files and Directories: The java.nio.file package provides classes such as Path, Files, and FileSystems for working with files and directories. These classes offer more modern and flexible APIs compared to traditional file I/O classes.
+
+Exceptions Handling: File I/O operations can throw various exceptions, such as IOException and its subclasses. Proper exception handling is essential to handle errors gracefully.
+
+Working with Paths: The Path class represents a file or directory path. It provides methods for manipulating paths, such as resolving relative paths and retrieving file attributes.
+
+Serialization and Deserialization: Java provides mechanisms for object serialization and deserialization, allowing objects to be written to and read from files. This is typically done using ObjectInputStream and ObjectOutputStream.
+
+Random Access Files: Java supports random access to files, allowing you to read from or write to any position within a file. This is achieved using classes like RandomAccessFile.
+
+When performing file I/O operations in Java, it's essential to consider factors such as error handling, resource management, and performance optimization. Using try-with-resources statements for automatic resource management and buffering for improved performance are common practices in Java file I/O programming. Additionally, understanding the differences between byte streams and character streams and when to use each is crucial for efficient file handling.
+
+EXAMPLE CODE:
+
+package com.dxc;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileIOExample {
+
+    public static void main(String[] args) {
+        String fileName = "example.txt";
+        
+        // Writing to a file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+            writer.write("Hello, this is a Srinandhini.\n");
+            writer.write("Writing some text to demonstrate file I/O in Java.\n");
+            writer.close();
+            System.out.println("Data has been written to the file.");
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+        
+        // Reading from a file
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+            System.out.println("Reading from the file:");
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error reading from file: " + e.getMessage());
+        }
+    }
+}
+
+
+OUTPUT:
+Data has been written to the file.
+Reading from the file:
+Hello, this is a Srinandhini.
+Writing some text to demonstrate file I/O in Java.
