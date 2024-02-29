@@ -1,0 +1,65 @@
+package com.dxc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCCrudExample {
+       
+static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+static final String DB_URL = "jdbc:mysql://localhost:3306/projectdb";
+static final String USER = "root";
+static final String PASS = "root";
+
+public static void main(String[] args) {
+    Connection conn = null;
+    Statement stmt = null;
+
+    try {
+        Class.forName(JDBC_DRIVER);
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        stmt = conn.createStatement();
+
+        // Create
+        String sql = "INSERT INTO users (id, name, email) VALUES (1, 'John Doe', 'john@gmail.com')";
+        stmt.executeUpdate(sql);
+
+        // Read
+        sql = "SELECT id, name, email FROM users";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            System.out.println("ID: " + id + ", Name: " + name + ", Email: " + email);
+        }
+        rs.close();
+
+        // Update
+        sql = "UPDATE users SET email='john.doe@gmail.com' WHERE name='John Doe'";
+        int rowsUpdated = stmt.executeUpdate(sql);
+        System.out.println(rowsUpdated + " rows updated.");
+
+//        // Delete
+//        sql = "DELETE FROM users WHERE name='John Doe'";
+//        int rowsDeleted = stmt.executeUpdate(sql);
+//        System.out.println(rowsDeleted + " rows deleted.");
+    } catch (SQLException se) {
+        se.printStackTrace();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (stmt != null) stmt.close();
+        } catch (SQLException se2) {
+        }
+        try {
+            if (conn != null) conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+}
+}
